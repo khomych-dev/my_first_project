@@ -1,1 +1,1 @@
-print("Hello, I'm studying.")
+print("Hello frend, I'm studying.")
