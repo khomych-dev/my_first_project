@@ -28,19 +28,20 @@ class Car:
         print(f"Врум-врум! {self.brand} заведена!")
 
 
-# 2. Використовуємо креслення для створення реальних об'єктів (Екземплярів)
-car1 = Car("BMW", "M5", 2020, "ready")
-car2 = Car("Audi", "RS6", 2022)  # статус буде "repair" за замовчуванням
-car3 = Car("Toyota", "Supra", 1998, "ready")
+print(Fore.CYAN + "--- Вхід у систему гаража ---" + Style.RESET_ALL)
 
-# 3. Наш склад (тепер тут не просто тексти, а об'єкти)
-garage = [car1, car2, car3]
+# Створюємо порожній список для нових авто
+my_new_garage = []
 
-print(Fore.CYAN + "--- Звіт інженерного відділу ---" + Style.RESET_ALL)
+# Просимо користувача ввести дані
+new_brand = input("Введи марку машини: ")
+new_model = input("Введи модель: ")
+new_year = input("Введи рік випуску: ")
 
-for car in garage:
-    print(car.get_info())
+# Створюємо об'єкт на основі введених даних
+# перетворюємо рік на число (int)
+user_car = Car(new_brand, new_model, int(new_year))
 
-car3.start_engine()
-
-print(Style.RESET_ALL)
+print("\n" + Fore.YELLOW + "Система обробила дані:" + Style.RESET_ALL)
+print(user_car.get_info())
+user_car.start_engine()
