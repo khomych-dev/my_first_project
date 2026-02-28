@@ -2,19 +2,15 @@ from colorama import Fore, Style, init
 
 init()
 
-# 1. Створюємо Креслення (Клас)
-
 
 class Car:
     def __init__(self, brand, model, year, status="repair"):
-        # Це "конструктор" - він визначає, які деталі МАЮТЬ бути у машини
         self.brand = brand
         self.model = model
         self.year = year
         self.status = status
 
     def get_info(self):
-        # Метод - це те, що машина "вміє" робити (наприклад, звітувати про себе)
         if self.status == "ready":
             color = Fore.GREEN
             label = "Готова до виїзду"
@@ -24,24 +20,46 @@ class Car:
 
         return f"{color}{self.brand} {self.model} ({self.year}) -> {label}{Style.RESET_ALL}"
 
-    def start_engine(self):
-        print(f"Врум-врум! {self.brand} заведена!")
 
+init()
 
-print(Fore.CYAN + "--- Вхід у систему гаража ---" + Style.RESET_ALL)
+# Наш порожній список (база даних у пам'яті)
+garage = []
 
-# Створюємо порожній список для нових авто
-my_new_garage = []
+print(Fore.CYAN + "=== СИСТЕМА УПРАВЛІННЯ ГАРАЖЕМ АКТИВОВАНА ===" + Style.RESET_ALL)
+print("Для виходу напиши 'стоп' у назві марки.\n")
 
-# Просимо користувача ввести дані
-new_brand = input("Введи марку машини: ")
-new_model = input("Введи модель: ")
-new_year = input("Введи рік випуску: ")
+while True:
+    # 1. Запитуємо назву марки
+    brand = input(
+        Fore.YELLOW + "Введи марку авто (або 'стоп' для звіту): " + Style.RESET_ALL)
 
-# Створюємо об'єкт на основі введених даних
-# перетворюємо рік на число (int)
-user_car = Car(new_brand, new_model, int(new_year))
+    # 2. Умова виходу (наш "стоп-кран")
+    if brand.lower() == 'стоп':
+        break
 
-print("\n" + Fore.YELLOW + "Система обробила дані:" + Style.RESET_ALL)
-print(user_car.get_info())
-user_car.start_engine()
+    # 3. Запитуємо інші дані
+    model = input("Введи модель: ")
+    year = input("Введи рік: ")
+
+    # Створюємо об'єкт і додаємо в список
+    try:
+        new_car = Car(brand, model, int(year))
+        garage.append(new_car)
+        print(Fore.GREEN + "✓ Авто додано до черги\n" + Style.RESET_ALL)
+    except ValueError:
+        print(
+            Fore.RED + "× Помилка: Рік має бути числом! Спробуй ще раз.\n" + Style.RESET_ALL)
+
+# 4. Фінальний звіт після виходу з циклу
+print("\n" + Fore.CYAN + "="*30)
+print("ПІДСУМКОВИЙ ЗВІТ ГАРАЖА:")
+print("="*30 + Style.RESET_ALL)
+
+if not garage:
+    print("Гараж порожній. Роботи не було.")
+else:
+    for car in garage:
+        print(car.get_info())
+
+print(Style.RESET_ALL)
