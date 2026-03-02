@@ -1,26 +1,9 @@
+from models import Car
 from colorama import Fore, Style, init
-import json
 import os
+import json
 
 init()
-
-
-class Car:
-    def __init__(self, brand, model, year, status="repair"):
-        self.brand = brand
-        self.model = model
-        self.year = year
-        self.status = status
-
-    def get_info(self):
-        if self.status == "ready":
-            color = Fore.GREEN
-            label = "Готова до виїзду"
-        else:
-            color = Fore.RED
-            label = "На підйомнику"
-
-        return f"{color}{self.brand} {self.model} ({self.year}) -> {label}{Style.RESET_ALL}"
 
 
 def load_from_file():
@@ -32,8 +15,14 @@ def load_from_file():
             raw_data = json.load(f)
 
         for item in raw_data:
-            loaded_garage.append(
-                Car(item['brand'], item['model'], item['year']))
+            new_car = Car(
+                item['brand'],
+                item['model'],
+                item['year'],
+                item['car_number'],
+                item['status']
+            )
+            loaded_garage.append(new_car)
 
     return loaded_garage
 
@@ -45,7 +34,14 @@ def save_to_file(garage_list):
     data_to_save = []
     for car in garage_list:
         data_to_save.append(
-            {'brand': car.brand, 'model': car.model, 'year': car.year})
+            {
+                'brand': car.brand,
+                'model': car.model,
+                'year': car.year,
+                'car_number': car.car_number,
+                'status': car.status
+            }
+        )
 
     with open("garage.json", "w", encoding="utf-8") as f:
         json.dump(data_to_save, f, ensure_ascii=False, indent=4)
@@ -64,11 +60,37 @@ while True:
     if brand.lower() == 'стоп':
         break
 
+    if brand.lower() == 'список':
+        for i, car in enumerate(garage, start=1):
+            print(f"{i}. {car.get_info()}")
+
+    if brand.lower() == 'ready':
+        search_number = input("Введи д.н.з. авто для видачі: ")
+        found = False
+
+        for car in garage:
+            if car.car_number == search_number:
+                if car.status == 'ready':
+                    print(Fore.YELLOW + "Це авто вже готове!" + Style.RESET_ALL)
+                else:
+                    car.status = 'ready'
+                    print(
+                        Fore.GREEN + f"🔧 Статус авто {search_number} змінено на READY!" + Style.RESET_ALL)
+                found = True
+                break
+
+        if not found:
+            print(
+                Fore.RED + f"Авто з номером {search_number} не знайдено в базі." + Style.RESET_ALL)
+
+        continue
+
     model = input("Введи модель: ")
     year = input("Введи рік: ")
+    car_number = input("Введи д.н.з. автомобіля: ")
 
     try:
-        new_car = Car(brand, model, int(year))
+        new_car = Car(brand, model, int(year), car_number)
         garage.append(new_car)
         print(Fore.GREEN + "✓ Авто додано до черги\n" + Style.RESET_ALL)
     except ValueError:
