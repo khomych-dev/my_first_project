@@ -1,24 +1,10 @@
 [
     {
-        "brand": "Nisan",
-        "model": "Rog",
-        "year": 2023,
-        "car_number": "КА1234ПР",
-        "status": "ready"
-    },
-    {
         "brand": "Toyota",
         "model": "Camry",
         "year": 2024,
         "car_number": "КА2344АП",
         "status": "repair"
-    },
-    {
-        "brand": "Audi",
-        "model": "A6",
-        "year": 2022,
-        "car_number": "КА9658ЗД",
-        "status": "ready"
     },
     {
         "brand": "Toyota",

@@ -85,6 +85,36 @@ while True:
 
         continue
 
+    if brand.lower() == 'delete':
+        search_number = input("Введи д.н.з. авто для видачі клієнту: ")
+        found = False
+
+        for car in garage:
+            if car.car_number == search_number:
+                found = True
+
+                if car.status == 'ready':
+                    confirm = input(
+                        f"Видати авто {search_number} клієнту? (так/ні): ")
+                    if confirm.lower() == 'так':
+                        garage.remove(car)
+                        print(
+                            Fore.GREEN + "✅ Авто успішно видано та вилучено з бази." + Style.RESET_ALL)
+                    else:
+                        print(
+                            Fore.YELLOW + "⚠️ Скасовано. Авто залишається в гаражі." + Style.RESET_ALL)
+                else:
+                    print(
+                        Fore.RED + "❌ ПОМИЛКА: Не можна видати авто, яке ще в ремонті!" + Style.RESET_ALL)
+
+                break
+
+        if not found:
+            print(
+                Fore.RED + f"🔍 Авто з номером {search_number} не знайдено." + Style.RESET_ALL)
+
+        continue
+
     model = input("Введи модель: ")
     year = input("Введи рік: ")
     car_number = input("Введи д.н.з. автомобіля: ")
