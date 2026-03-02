@@ -65,19 +65,16 @@ while True:
             print(Fore.YELLOW + "Гараж порожній. Немає чого рахувати." + Style.RESET_ALL)
             continue
 
-        # 1. Готуємо "відра" для підрахунку
         total = len(garage)
         ready_count = 0
         repair_count = 0
 
-        # 2. Проходимося по базі та сортуємо по "відрах"
         for car in garage:
             if car.status == 'ready':
                 ready_count += 1
             else:
                 repair_count += 1
 
-        # 3. Виводимо гарний звіт (резюме)
         print("\n" + Fore.BLACK + Back.MAGENTA +
               " --- ЗВІТ ПО ГАРАЖУ --- " + Style.RESET_ALL)
         print(f"📊 Всього автомобілів: {total}")
@@ -87,7 +84,6 @@ while True:
             f"🛠️ В ремонті:         {Fore.RED}{repair_count}{Style.RESET_ALL}")
         print("-" * 25)
 
-        # 4. Виводимо сам список
         for i, car in enumerate(garage, start=1):
             print(f"{i}. {car.get_info()}")
 
