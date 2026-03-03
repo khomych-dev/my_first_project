@@ -53,11 +53,23 @@ def save_to_file(garage_list):
 garage = load_from_file()
 
 print(Fore.CYAN + "=== СИСТЕМА УПРАВЛІННЯ ГАРАЖЕМ АКТИВОВАНА ===" + Style.RESET_ALL)
-print("Для виходу напиши 'стоп' у назві марки.\n")
+print("Напиши 'help' для перегляду команд\n")
 
 while True:
     brand = input(
         Fore.YELLOW + "Введи марку авто (або 'стоп' для звіту): " + Style.RESET_ALL)
+
+    if brand.lower() == 'help' or brand == '?':
+        print("\n" + Fore.CYAN + "--- ДОСТУПНІ КОМАНДИ ---" + Style.RESET_ALL)
+        print(
+            f"{Fore.YELLOW}ready{Style.RESET_ALL}   - Змінити статус авто на 'Готова'")
+        print(f"{Fore.YELLOW}price{Style.RESET_ALL}   - Оновити вартість ремонту")
+        print(f"{Fore.YELLOW}delete{Style.RESET_ALL}  - Видати авто клієнту (видалити)")
+        print(
+            f"{Fore.YELLOW}список{Style.RESET_ALL}  - Показати всі авто та фінансовий звіт")
+        print(f"{Fore.YELLOW}стоп{Style.RESET_ALL}    - Зберегти дані та вийти")
+        print(Fore.CYAN + "------------------------" + Style.RESET_ALL)
+        continue
 
     if brand.lower() == 'стоп':
         break
