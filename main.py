@@ -79,6 +79,21 @@ while True:
             print(Fore.YELLOW + "Гараж порожній. Немає чого рахувати." + Style.RESET_ALL)
             continue
 
+        print("\nОбери сортування:")
+        print("1 - Спочатку найдорожчі")
+        print("2 - Спочатку нові авто (за роком)")
+        print("3 - Без сортування (за порядком додавання)")
+
+        choice = input("Введи номер (або Enter для пропуску): ")
+
+        if choice == '1':
+            garage.sort(key=lambda car: car.repair_cost, reverse=True)
+            print(Fore.CYAN + "Сортування: за вартістю (спадання)" + Style.RESET_ALL)
+
+        elif choice == '2':
+            garage.sort(key=lambda car: car.year, reverse=True)
+            print(Fore.CYAN + "Сортування: за роком випуску" + Style.RESET_ALL)
+
         total = len(garage)
         ready_count = 0
         repair_count = 0
