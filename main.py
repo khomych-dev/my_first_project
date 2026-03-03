@@ -20,6 +20,7 @@ def load_from_file():
                 item['model'],
                 item['year'],
                 item['car_number'],
+                item.get('repair_cost', 0),
                 item['status']
             )
             loaded_garage.append(new_car)
@@ -39,6 +40,7 @@ def save_to_file(garage_list):
                 'model': car.model,
                 'year': car.year,
                 'car_number': car.car_number,
+                'repair_cost': car.repair_cost,
                 'status': car.status
             }
         )
@@ -68,12 +70,16 @@ while True:
         total = len(garage)
         ready_count = 0
         repair_count = 0
+        total_cash = 0.0
+        expected_income = 0.0
 
         for car in garage:
             if car.status == 'ready':
                 ready_count += 1
+                total_cash += car.repair_cost
             else:
                 repair_count += 1
+                expected_income += car.repair_cost
 
         print("\n" + Fore.BLACK + Back.MAGENTA +
               " --- ЗВІТ ПО ГАРАЖУ --- " + Style.RESET_ALL)
@@ -82,12 +88,16 @@ while True:
             f"✅ Готово до виїзду:  {Fore.GREEN}{ready_count}{Style.RESET_ALL}")
         print(
             f"🛠️ В ремонті:         {Fore.RED}{repair_count}{Style.RESET_ALL}")
-        print("-" * 25)
+        print(
+            f"💰 Каса (Готово): {Fore.GREEN}{total_cash} грн{Style.RESET_ALL}")
+        print(
+            f"⏳ В роботі (Очікується): {Fore.YELLOW}{expected_income} грн{Style.RESET_ALL}")
+        print("-" * 30)
 
         for i, car in enumerate(garage, start=1):
             print(f"{i}. {car.get_info()}")
 
-        print("-" * 25 + "\n")
+        print("-" * 30 + "\n")
         continue
 
     if brand.lower() == 'ready':
@@ -144,14 +154,16 @@ while True:
     model = input("Введи модель: ")
     year = input("Введи рік: ")
     car_number = input("Введи д.н.з. автомобіля: ")
-
+    price = input("Вартість ремонту: ")
     try:
-        new_car = Car(brand, model, int(year), car_number)
+
+        new_car = Car(brand, model, int(year), car_number, float(price))
         garage.append(new_car)
         print(Fore.GREEN + "✓ Авто додано до черги\n" + Style.RESET_ALL)
+
     except ValueError:
-        print(
-            Fore.RED + "× Помилка: Рік має бути числом! Спробуй ще раз.\n" + Style.RESET_ALL)
+        print(Fore.RED + "× ПОМИЛКА: Рік та вартість мають бути числами! Авто не додано." + Style.RESET_ALL)
+        continue
 
 print("\n" + Fore.CYAN + "="*30)
 print("ПІДСУМКОВИЙ ЗВІТ ГАРАЖА:")
