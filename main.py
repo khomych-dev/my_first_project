@@ -151,6 +151,31 @@ while True:
 
         continue
 
+    if brand.lower() == 'price':
+        search_number = input("Введи д.н.з. авто для зміни ціни: ")
+        found = False
+
+        for car in garage:
+            if car.car_number == search_number:
+                found = True
+                try:
+                    new_price = float(
+                        input(f"Поточна ціна {car.repair_cost} грн. Введи нову вартість: "))
+                    car.repair_cost = new_price
+                    print(Fore.GREEN + "✅ Вартість ремонту оновлено!" +
+                          Style.RESET_ALL)
+                except ValueError:
+                    print(Fore.RED + "❌ Помилка: Треба ввести число!" +
+                          Style.RESET_ALL)
+
+                break
+
+        if not found:
+            print(
+                Fore.RED + f"🔍 Авто з номером {search_number} не знайдено." + Style.RESET_ALL)
+
+        continue
+
     model = input("Введи модель: ")
     year = input("Введи рік: ")
     car_number = input("Введи д.н.з. автомобіля: ")
