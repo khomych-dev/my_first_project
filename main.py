@@ -96,8 +96,10 @@ while True:
             print(Fore.CYAN + "Сортування: за роком випуску" + Style.RESET_ALL)
 
         elif choice == '3':
-            garage.sort(key=lambda car: 0 if car.status == 'repair' else 1)
-            print(Fore.CYAN + "Сортування: спочатку в ремонті" + Style.RESET_ALL)
+            garage.sort(key=lambda car: (0 if car.status ==
+                        'repair' else 1, -car.repair_cost))
+            print(
+                Fore.CYAN + "Сортування: Пріоритет ремонту + Найдорожчі зверху" + Style.RESET_ALL)
 
         total = len(garage)
         ready_count = 0
