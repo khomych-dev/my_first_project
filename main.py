@@ -82,7 +82,8 @@ while True:
         print("\nОбери сортування:")
         print("1 - Спочатку найдорожчі")
         print("2 - Спочатку нові авто (за роком)")
-        print("3 - Без сортування (за порядком додавання)")
+        print("3 - Спочатку авто, що 'В ремонті'")
+        print("4 - Без сортування (за порядком додавання)")
 
         choice = input("Введи номер (або Enter для пропуску): ")
 
@@ -93,6 +94,10 @@ while True:
         elif choice == '2':
             garage.sort(key=lambda car: car.year, reverse=True)
             print(Fore.CYAN + "Сортування: за роком випуску" + Style.RESET_ALL)
+
+        elif choice == '3':
+            garage.sort(key=lambda car: 0 if car.status == 'repair' else 1)
+            print(Fore.CYAN + "Сортування: спочатку в ремонті" + Style.RESET_ALL)
 
         total = len(garage)
         ready_count = 0
