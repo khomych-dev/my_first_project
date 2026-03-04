@@ -62,12 +62,13 @@ while True:
     if brand.lower() == 'help' or brand == '?':
         print("\n" + Fore.CYAN + "--- ДОСТУПНІ КОМАНДИ ---" + Style.RESET_ALL)
         print(
-            f"{Fore.YELLOW}ready{Style.RESET_ALL}   - Змінити статус авто на 'Готова'")
-        print(f"{Fore.YELLOW}price{Style.RESET_ALL}   - Оновити вартість ремонту")
+            f"{Fore.YELLOW}ready{Style.RESET_ALL}  - Змінити статус авто на 'Готова'")
+        print(f"{Fore.YELLOW}price{Style.RESET_ALL}  - Оновити вартість ремонту")
         print(f"{Fore.YELLOW}delete{Style.RESET_ALL}  - Видати авто клієнту (видалити)")
         print(
             f"{Fore.YELLOW}список{Style.RESET_ALL}  - Показати всі авто та фінансовий звіт")
-        print(f"{Fore.YELLOW}стоп{Style.RESET_ALL}    - Зберегти дані та вийти")
+        print(f"{Fore.YELLOW}стоп{Style.RESET_ALL}  - Зберегти дані та вийти")
+        print(f"{Fore.YELLOW}filter{Style.RESET_ALL}  - Фільтруємо автомобілі за: в ремонті, готові, д.н.з.")
         print(Fore.CYAN + "------------------------" + Style.RESET_ALL)
         continue
 
@@ -135,6 +136,10 @@ while True:
         continue
 
     if brand.lower() == 'ready':
+        if not garage:
+            print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
+            continue
+
         search_number = input("Введи д.н.з. авто для видачі: ")
         found = False
 
@@ -156,6 +161,10 @@ while True:
         continue
 
     if brand.lower() == 'delete':
+        if not garage:
+            print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
+            continue
+
         search_number = input("Введи д.н.з. авто для видачі клієнту: ")
         found = False
 
@@ -186,6 +195,10 @@ while True:
         continue
 
     if brand.lower() == 'price':
+        if not garage:
+            print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
+            continue
+
         search_number = input("Введи д.н.з. авто для зміни ціни: ")
         found = False
 
@@ -210,6 +223,46 @@ while True:
 
         continue
 
+    if brand.lower() == 'filter':
+        if not garage:
+            print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
+            continue
+
+        print("\nОбери тип фільтрації:")
+        print("1 - Тільки 'В ремонті'")
+        print("2 - Тільки 'Готові'")
+        print("3 - Пошук автомобіля за д.н.з.")
+
+        choice = input("Твій вибір: ")
+        results = []
+
+        if choice == '1':
+            results = [car for car in garage if car.status == 'repair']
+            print(Fore.CYAN + "--- МАШИНИ В РОБОТІ ---" + Style.RESET_ALL)
+
+        elif choice == '2':
+            results = [car for car in garage if car.status == 'ready']
+            print(Fore.CYAN + "--- ГОТОВІ ДО ВИДАЧІ ---" + Style.RESET_ALL)
+
+        elif choice == '3':
+            search_car_number = input(
+                "Вкажи д.н.з. щоб знайти автомобіль: ").upper()
+            results = [car for car in garage if car.car_number.upper() ==
+                       search_car_number]
+            print(
+                Fore.CYAN + f"--- РЕЗУЛЬТАТИ ПО: {search_car_number.upper()} ---" + Style.RESET_ALL)
+
+        if not results:
+            print(Fore.CYAN +
+                  "Нічого не знайдено за такими критеріями." + Style.RESET_ALL)
+
+        else:
+            for car in results:
+                print(car.get_info())
+
+        print('-' * 30)
+        continue
+
     model = input("Введи модель: ")
     year = input("Введи рік: ")
     car_number = input("Введи д.н.з. автомобіля: ")
@@ -223,6 +276,7 @@ while True:
     except ValueError:
         print(Fore.RED + "× ПОМИЛКА: Рік та вартість мають бути числами! Авто не додано." + Style.RESET_ALL)
         continue
+
 
 print("\n" + Fore.CYAN + "="*30)
 print("ПІДСУМКОВИЙ ЗВІТ ГАРАЖА:")
