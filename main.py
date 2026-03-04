@@ -5,6 +5,17 @@ import json
 
 init()
 
+history = []
+
+
+def load_history():
+    try:
+        with open("history.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
+            return [Car(**item) for item in data]
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
 
 def load_from_file():
     file_name = 'garage.json'
