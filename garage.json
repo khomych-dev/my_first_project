@@ -8,27 +8,11 @@
         "status": "repair"
     },
     {
-        "brand": "Nissan",
-        "model": "Rogue",
-        "year": 2021,
-        "car_number": "КА1234КА",
-        "repair_cost": 5000.0,
-        "status": "repair"
-    },
-    {
         "brand": "Audi",
         "model": "A6",
         "year": 2022,
         "car_number": "КА5678РО",
         "repair_cost": 4758.0,
         "status": "repair"
-    },
-    {
-        "brand": "Toyota",
-        "model": "Rav-4",
-        "year": 2025,
-        "car_number": "КА4567НА",
-        "repair_cost": 235.85,
-        "status": "ready"
     }
 ]

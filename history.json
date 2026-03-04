@@ -1,0 +1,10 @@
+[
+    {
+        "brand": "Nissan",
+        "model": "Rogue",
+        "year": 2021,
+        "car_number": "КА1234КА",
+        "repair_cost": 5000.0,
+        "status": "ready"
+    }
+]

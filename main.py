@@ -10,11 +10,17 @@ history = []
 
 def load_history():
     try:
-        with open("history.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
+        with open("history.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
             return [Car(**item) for item in data]
     except (FileNotFoundError, json.JSONDecodeError):
         return []
+
+
+def save_history(history_list):
+    with open('history.json', 'w', encoding='utf-8') as f:
+        json.dump([car.__dict__ for car in history_list],
+                  f, indent=4, ensure_ascii=False)
 
 
 def load_from_file():
@@ -62,6 +68,7 @@ def save_to_file(garage_list):
 
 
 garage = load_from_file()
+history = load_history()
 
 print(Fore.CYAN + "=== СИСТЕМА УПРАВЛІННЯ ГАРАЖЕМ АКТИВОВАНА ===" + Style.RESET_ALL)
 print("Напиши 'help' для перегляду команд\n")
@@ -80,6 +87,8 @@ while True:
             f"{Fore.YELLOW}список{Style.RESET_ALL}  - Показати всі авто та фінансовий звіт")
         print(f"{Fore.YELLOW}стоп{Style.RESET_ALL}  - Зберегти дані та вийти")
         print(f"{Fore.YELLOW}filter{Style.RESET_ALL}  - Фільтруємо автомобілі за: в ремонті, готові, д.н.з.")
+        print(
+            f"{Fore.YELLOW}histori{Style.RESET_ALL}  - Історія обслуговування та рибутку")
         print(Fore.CYAN + "------------------------" + Style.RESET_ALL)
         continue
 
@@ -176,26 +185,31 @@ while True:
             print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
             continue
 
-        search_number = input("Введи д.н.з. авто для видачі клієнту: ")
-        found = False
+        search_number = input("Введи д.н.з. авто для видачі клієнту: ").upper()
+        found = None
 
         for car in garage:
-            if car.car_number == search_number:
-                found = True
+            if car.car_number.upper() == search_number:
+                found = car
 
-                if car.status == 'ready':
-                    confirm = input(
-                        f"Видати авто {search_number} клієнту? (так/ні): ")
-                    if confirm.lower() == 'так':
-                        garage.remove(car)
-                        print(
-                            Fore.GREEN + "✅ Авто успішно видано та вилучено з бази." + Style.RESET_ALL)
-                    else:
-                        print(
-                            Fore.YELLOW + "⚠️ Скасовано. Авто залишається в гаражі." + Style.RESET_ALL)
-                else:
+                if car.status != 'ready':
                     print(
                         Fore.RED + "❌ ПОМИЛКА: Не можна видати авто, яке ще в ремонті!" + Style.RESET_ALL)
+                    break
+
+                confirm = input(
+                    f"Видати авто {search_number} клієнту? (так/ні): ")
+                if confirm.lower() == 'так':
+                    garage.remove(car)
+                    history.append(car)
+
+                    save_to_file(garage)
+                    save_history(history)
+                    print(
+                        Fore.GREEN + f"✅ Авто {search_number} видано та збережено в історію!" + Style.RESET_ALL)
+                else:
+                    print(
+                        Fore.YELLOW + "⚠️ Скасовано. Авто залишається в гаражі." + Style.RESET_ALL)
 
                 break
 
@@ -203,6 +217,25 @@ while True:
             print(
                 Fore.RED + f"🔍 Авто з номером {search_number} не знайдено." + Style.RESET_ALL)
 
+        continue
+
+    if brand.lower() == 'history':
+        if not history:
+            print(Fore.YELLOW + "Історія замовлень порожня." + Style.RESET_ALL)
+            continue
+
+        total_earned = sum(car.repair_cost for car in history)
+
+        print("\n" + Back.GREEN + Fore.BLACK +
+              " --- АРХІВ ВИКОНАНИХ РОБІТ --- " + Style.RESET_ALL)
+        for i, car in enumerate(history, start=1):
+            print(f"{i}. {car.get_info()}")
+
+        print("-" * 30)
+        print(
+            f"💰 ЗАГАЛЬНИЙ ПРИБУТОК: {Fore.GREEN}{total_earned} грн{Style.RESET_ALL}")
+        print(f"📈 Всього обслуговано авто: {len(history)}")
+        print("-" * 30 + "\n")
         continue
 
     if brand.lower() == 'price':
