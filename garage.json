@@ -6,13 +6,5 @@
         "car_number": "КА2344АП",
         "repair_cost": 67989.57,
         "status": "repair"
-    },
-    {
-        "brand": "Audi",
-        "model": "A6",
-        "year": 2022,
-        "car_number": "КА5678РО",
-        "repair_cost": 4758.0,
-        "status": "repair"
     }
 ]

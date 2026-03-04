@@ -89,11 +89,41 @@ while True:
         print(f"{Fore.YELLOW}фільтр{Style.RESET_ALL}  - Фільтруємо автомобілі за: в ремонті, готові, д.н.з.")
         print(
             f"{Fore.YELLOW}історія{Style.RESET_ALL}  - Історія обслуговування та рибутку")
+        print(f"{Fore.YELLOW}видалити{Style.RESET_ALL} - Видалити авто за номером")
         print(Fore.CYAN + "------------------------" + Style.RESET_ALL)
         continue
 
     if brand.lower() == 'стоп':
         break
+
+    if brand.lower() == 'видалити':
+        if not garage:
+            print(Fore.YELLOW + "Гараж порожній. Немає чого рахувати." + Style.RESET_ALL)
+            continue
+
+        search_number = input(
+            "Введи д.н.з. для ПОВНОГО видалення (помилка вводу): ").upper()
+        found = False
+
+        for car in garage:
+            if car.car_number.upper() == search_number:
+                found = True
+                confirm = input(
+                    f"Ти впевнений, що хочеш видалити {search_number} назовсім? (так/ні): ").lower()
+                if confirm == 'так':
+                    garage.remove(car)
+                    save_to_file(garage)
+                    print(
+                        Fore.RED + f"🗑️ Запис про {search_number} видалено безповоротно." + Style.RESET_ALL)
+                else:
+                    print(Fore.YELLOW + "Дію скасовано." + Style.RESET_ALL)
+
+                break
+
+        if not found:
+            print(
+                Fore.RED + f"🔍 Авто з номером {search_number} не знайдено." + Style.RESET_ALL)
+        continue
 
     if brand.lower() == 'список':
         if not garage:
