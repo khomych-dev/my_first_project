@@ -80,15 +80,15 @@ while True:
     if brand.lower() == 'help' or brand == '?':
         print("\n" + Fore.CYAN + "--- ДОСТУПНІ КОМАНДИ ---" + Style.RESET_ALL)
         print(
-            f"{Fore.YELLOW}ready{Style.RESET_ALL}  - Змінити статус авто на 'Готова'")
-        print(f"{Fore.YELLOW}price{Style.RESET_ALL}  - Оновити вартість ремонту")
-        print(f"{Fore.YELLOW}delete{Style.RESET_ALL}  - Видати авто клієнту (видалити)")
+            f"{Fore.YELLOW}готово{Style.RESET_ALL}  - Змінити статус авто на 'Готова'")
+        print(f"{Fore.YELLOW}вартість{Style.RESET_ALL}  - Оновити вартість ремонту")
+        print(f"{Fore.YELLOW}видати{Style.RESET_ALL}  - Видати авто клієнту (видалити)")
         print(
             f"{Fore.YELLOW}список{Style.RESET_ALL}  - Показати всі авто та фінансовий звіт")
         print(f"{Fore.YELLOW}стоп{Style.RESET_ALL}  - Зберегти дані та вийти")
-        print(f"{Fore.YELLOW}filter{Style.RESET_ALL}  - Фільтруємо автомобілі за: в ремонті, готові, д.н.з.")
+        print(f"{Fore.YELLOW}фільтр{Style.RESET_ALL}  - Фільтруємо автомобілі за: в ремонті, готові, д.н.з.")
         print(
-            f"{Fore.YELLOW}histori{Style.RESET_ALL}  - Історія обслуговування та рибутку")
+            f"{Fore.YELLOW}історія{Style.RESET_ALL}  - Історія обслуговування та рибутку")
         print(Fore.CYAN + "------------------------" + Style.RESET_ALL)
         continue
 
@@ -155,7 +155,7 @@ while True:
         print("-" * 30 + "\n")
         continue
 
-    if brand.lower() == 'ready':
+    if brand.lower() == 'готово':
         if not garage:
             print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
             continue
@@ -180,7 +180,7 @@ while True:
 
         continue
 
-    if brand.lower() == 'delete':
+    if brand.lower() == 'видати':
         if not garage:
             print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
             continue
@@ -219,7 +219,7 @@ while True:
 
         continue
 
-    if brand.lower() == 'history':
+    if brand.lower() == 'історія':
         if not history:
             print(Fore.YELLOW + "Історія замовлень порожня." + Style.RESET_ALL)
             continue
@@ -238,7 +238,7 @@ while True:
         print("-" * 30 + "\n")
         continue
 
-    if brand.lower() == 'price':
+    if brand.lower() == 'вартість':
         if not garage:
             print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
             continue
@@ -267,7 +267,7 @@ while True:
 
         continue
 
-    if brand.lower() == 'filter':
+    if brand.lower() == 'фільтр':
         if not garage:
             print(Fore.YELLOW + "Гараж порожній." + Style.RESET_ALL)
             continue
